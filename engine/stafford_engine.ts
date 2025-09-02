@@ -2,17 +2,11 @@
 import { stafford_lines } from "./stafford_lines";
 
 
-const staffordGameEngine = (refutationRoll = 1.0) => {
+const staffordGameEngine = (refutationRoll = 0.99) => {
 
-    const refutation = 0.75, queen = 0.5;
-    let staffordIdx = 0;
-    if (refutationRoll > refutation) {
-        staffordIdx = 0;
-    } else if (refutationRoll < queen) {
-        staffordIdx = 1;
-    } else {
-        staffordIdx = 2;
-    }
+    refutationRoll = refutationRoll === 1.0 ? 0.99 : refutationRoll
+    const linesAvailable = stafford_lines.length
+    const staffordIdx = parseInt(refutationRoll * linesAvailable + "", 10)
     let staffordEngine: { blackMoves: string[], whiteMoves: string[] } = {
         blackMoves: stafford_lines[staffordIdx].black,
         whiteMoves: stafford_lines[staffordIdx].white

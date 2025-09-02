@@ -157,14 +157,14 @@ describe('knows the oh no my queen trap', function () {
         } as MoveEvent
     ] as const;
     it('plays e4 on first move', function () {
-        const staffordEngine = staffordGameEngine(0.4);
+        const staffordEngine = staffordGameEngine(0.05);
 
         const firstMove = staffordEngine.determineWhiteNextMove([])
 
         assert.equal(firstMove, "e4")
     });
     it('plays Nf3 on second move', function () {
-        const staffordEngine = staffordGameEngine(0.4);
+        const staffordEngine = staffordGameEngine(0.05);
         const secondMove = [
             {
                 after: "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
@@ -185,7 +185,7 @@ describe('knows the oh no my queen trap', function () {
         assert.equal(firstMove, "Nf3")
     });
     it('plays Bxg4 on seventh move', function () {
-        const staffordEngine = staffordGameEngine(0.4);
+        const staffordEngine = staffordGameEngine(0.05);
         staffordEngine.determineWhiteNextMove([]);
         staffordEngine.determineWhiteNextMove([blackMoves[0]]);
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1]]);
@@ -198,7 +198,7 @@ describe('knows the oh no my queen trap', function () {
         assert.equal(firstMove, "Bxd8")
     });
     it('plays the entire refutation', function () {
-        const staffordEngine = staffordGameEngine(0.4);
+        const staffordEngine = staffordGameEngine(0.05);
         staffordEngine.determineWhiteNextMove([]);
         staffordEngine.determineWhiteNextMove([blackMoves[0]]);
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1]]);
@@ -252,7 +252,7 @@ describe('knows the oh no my knight trap', function () {
         assert.equal(firstMove, "e4")
     });
     it('plays Nf3 on second move', function () {
-        const staffordEngine = staffordGameEngine(0.65);
+        const staffordEngine = staffordGameEngine(0.15);
         const secondMove = [
             {
                 after: "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
@@ -273,7 +273,7 @@ describe('knows the oh no my knight trap', function () {
         assert.equal(firstMove, "Nf3")
     });
     it('plays dxe4 on the seventh move', function () {
-        const staffordEngine = staffordGameEngine(0.65);
+        const staffordEngine = staffordGameEngine(0.15);
         staffordEngine.determineWhiteNextMove([]);
         staffordEngine.determineWhiteNextMove([blackMoves[0]]);
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1]]);
@@ -286,7 +286,7 @@ describe('knows the oh no my knight trap', function () {
         assert.equal(finalMove, "dxe4")
     });
     it('plays the entire refutation', function () {
-        const staffordEngine = staffordGameEngine(0.65);
+        const staffordEngine = staffordGameEngine(0.15);
         staffordEngine.determineWhiteNextMove([]);
         staffordEngine.determineWhiteNextMove([blackMoves[0]]);
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1]]);
