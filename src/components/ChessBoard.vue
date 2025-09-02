@@ -2,7 +2,8 @@
 import type {BoardApi, BoardConfig} from 'vue3-chessboard';
 import {type MoveEvent, TheChessboard} from 'vue3-chessboard';
 import 'vue3-chessboard/style.css';
-import STOCKFISH from 'stockfish/src/stockfish-17.1-asm-341ff22.js';
+import { staffordGameEngine } from "../../engine/stafford_engine.ts";
+// import STOCKFISH from 'stockfish/src/stockfish-17.1-asm-341ff22.js';
 
 const props = defineProps<{ title: string }>()
 
@@ -11,7 +12,7 @@ const boardConfig: BoardConfig = {
   coordinates: true,
   orientation: "black"
 };
-
+let staffordEngine = staffordGameEngine();
 function handleCheckmate(isMated: string) {
   if (isMated === 'w') {
     alert('Black wins!');
@@ -19,19 +20,17 @@ function handleCheckmate(isMated: string) {
     alert('White wins!');
   }
 }
-
-let staffordEngine;
 function boardCreated(api: BoardApi) {
   boardAPI = api;
   staffordEngine = staffordGameEngine();
-  const currentWhiteMove = staffordEngine.whiteMoves.shift();
+  const currentWhiteMove = staffordEngine.whiteMoves.shift() ?? "";
   boardAPI.move(currentWhiteMove)
   return boardAPI;
 }
 function boardReset() {
   staffordEngine = staffordGameEngine();
   boardAPI?.resetBoard();
-  const currentWhiteMove = staffordEngine.whiteMoves.shift();
+  const currentWhiteMove = staffordGameEngine()?.whiteMoves.shift() || "";
   boardAPI.move(currentWhiteMove)
 }
 function undoMove() {
@@ -43,22 +42,6 @@ function undoMove() {
     staffordEngine.whiteMoves.shift()
   }
   console.log(staffordEngine.whiteMoves)
-}
-
-function staffordGameEngine() {
-  const mainRefutationBlack = ['e5', 'Nf6', 'Nc6', 'dxc6', 'Bc5', 'Ng4', 'Qh4', 'Qxg4', 'Bxg4']
-  const mainRefutationWhite = ['e4', 'Nf3', 'Nxe5', 'Nxc6', 'd3', 'Be2', 'Bxg4', 'g3', 'Qxg4']
-
-  function determineWhiteNextMove(history: MoveEvent[]) {
-    let currentBlackLine = history.filter((item) => item.color === 'b').map(item => item.san);
-    let engineMoveSoFar = staffordEngine.blackMoves.slice(0, currentBlackLine.length);
-    if (engineMoveSoFar.some((engine, idx) => engine !== currentBlackLine[idx])) {
-      console.log(`You are off the main line! ${staffordEngine.blackMoves[0]} !== ${currentBlackLine[0]}`)
-    } else {
-      return staffordEngine.whiteMoves.shift();
-    }
-  }
-  return { blackMoves: mainRefutationBlack, whiteMoves: mainRefutationWhite, determineWhiteNextMove };
 }
 
 
@@ -74,7 +57,7 @@ function handleMove(move: MoveEvent) {
   // hero is playing black
   if (move.color === 'b') {
     const history = boardAPI.getHistory(true);
-    const currentWhiteMove = staffordEngine.determineWhiteNextMove(history);
+    const currentWhiteMove = staffordEngine?.determineWhiteNextMove(history);
     boardAPI.move(currentWhiteMove)
   }
 }

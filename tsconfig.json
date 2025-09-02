@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     }
   },
