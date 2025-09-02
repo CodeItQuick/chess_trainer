@@ -38,11 +38,6 @@ function boardReset() {
 }
 function undoMove() {
   boardAPI?.undoLastMove();
-  const history = boardAPI?.getHistory(true);
-  const moveNumber = history.filter(({color}) => color === 'w')?.length
-  for (let i = 0; i < moveNumber; i++) {
-    staffordEngine.whiteMoves.shift()
-  }
 }
 
 function handleMove(move: MoveEvent) {
@@ -57,7 +52,13 @@ function handleMove(move: MoveEvent) {
   if (move.color === 'b') {
     const history = boardAPI.getHistory(true);
     const currentWhiteMove = staffordEngine?.determineWhiteNextMove(history);
-    boardAPI.move(currentWhiteMove)
+    if (currentWhiteMove === undefined) {
+      alert('You are off the line! Try again!');
+      return false;
+    } else {
+      boardAPI.move(currentWhiteMove);
+      return true;
+    }
   }
 }
 
