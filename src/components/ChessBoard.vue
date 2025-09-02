@@ -3,6 +3,7 @@ import type {BoardApi, BoardConfig} from 'vue3-chessboard';
 import {type MoveEvent, TheChessboard} from 'vue3-chessboard';
 import 'vue3-chessboard/style.css';
 import { staffordGameEngine } from "../../engine/stafford_engine.ts";
+import {ref} from "vue";
 // import STOCKFISH from 'stockfish/src/stockfish-17.1-asm-341ff22.js';
 
 const props = defineProps<{ title: string }>()
@@ -12,7 +13,7 @@ const boardConfig: BoardConfig = {
   coordinates: true,
   orientation: "black"
 };
-let staffordEngine = staffordGameEngine(Math.random());
+let staffordEngine = { lineName: "" };
 function handleCheckmate(isMated: string) {
   if (isMated === 'w') {
     alert('Black wins!');
@@ -23,14 +24,16 @@ function handleCheckmate(isMated: string) {
 function boardCreated(api: BoardApi) {
   boardAPI = api;
   staffordEngine = staffordGameEngine(Math.random());
-  const currentWhiteMove = staffordEngine.whiteMoves.shift() ?? "";
+  const currentWhiteMove = staffordEngine.whiteMoves[0] ?? "";
   boardAPI.move(currentWhiteMove)
+  staffordLineName.value = staffordEngine.lineName;
   return boardAPI;
 }
 function boardReset() {
   staffordEngine = staffordGameEngine(Math.random());
   boardAPI?.resetBoard();
-  const currentWhiteMove = staffordEngine?.whiteMoves.shift() || "";
+  const currentWhiteMove = staffordEngine?.whiteMoves[0] || "";
+  staffordLineName.value = staffordEngine.lineName;
   boardAPI.move(currentWhiteMove)
 }
 function undoMove() {
@@ -40,12 +43,9 @@ function undoMove() {
   for (let i = 0; i < moveNumber; i++) {
     staffordEngine.whiteMoves.shift()
   }
-  console.log(staffordEngine.whiteMoves)
 }
 
-
 function handleMove(move: MoveEvent) {
-  console.log(move)
   // if (move.color === 'w') {
   //   const history = boardAPI.getHistory();
   //   const currentBlackMove = staffordEngine.blackMoves.shift();
@@ -60,6 +60,8 @@ function handleMove(move: MoveEvent) {
     boardAPI.move(currentWhiteMove)
   }
 }
+
+const staffordLineName = ref(staffordEngine.lineName ?? "")
 
 // let stockfishLog = []
 // const stockfish = await STOCKFISH({
@@ -77,7 +79,7 @@ function handleMove(move: MoveEvent) {
 
 <template>
   <section>
-    <h1>{{ title }}</h1>
+    <h1>{{ title }}: {{ staffordLineName }}</h1>
     <div>
       <button @click="boardAPI?.toggleOrientation()">
         Toggle orientation

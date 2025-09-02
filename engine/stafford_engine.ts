@@ -4,12 +4,12 @@ import { stafford_lines } from "./stafford_lines";
 
 const staffordGameEngine = (refutationRoll = 0.99) => {
 
-    refutationRoll = refutationRoll === 1.0 ? 0.99 : refutationRoll
-    const linesAvailable = stafford_lines.length
-    const staffordIdx = parseInt(refutationRoll * linesAvailable + "", 10)
-    let staffordEngine: { blackMoves: string[], whiteMoves: string[] } = {
+    const roll = refutationRoll === 1.0 ? "0.99" : refutationRoll * stafford_lines.length + ""
+    const staffordIdx = parseInt(roll, 10)
+    let staffordEngine: { blackMoves: string[], whiteMoves: string[], lineName: string } = {
         blackMoves: stafford_lines[staffordIdx].black,
-        whiteMoves: stafford_lines[staffordIdx].white
+        whiteMoves: stafford_lines[staffordIdx].white,
+        lineName: stafford_lines[staffordIdx].line.split('-').join(' ')
     };
 
 
@@ -18,7 +18,7 @@ const staffordGameEngine = (refutationRoll = 0.99) => {
         // play main refutation
         if (staffordEngine.blackMoves.filter((move, idx) => move === currentBlackLine[idx]).length
             === currentBlackLine?.length) {
-            const nextMove = staffordEngine.whiteMoves[history.length]
+            const nextMove = staffordEngine.whiteMoves[currentBlackLine.length]
             return nextMove;
         }
 
