@@ -58,11 +58,7 @@ describe('knows the main refutation', function () {
             {
                 color: "b",
                 san: "Ng4"
-            } as MoveEvent,
-            {
-                color: "b",
-                san: "Qh4"
-            } as MoveEvent,
+            } as MoveEvent
         ];
         staffordEngine.determineWhiteNextMove([]);
         staffordEngine.determineWhiteNextMove([moves[0]]);
@@ -109,10 +105,6 @@ describe('knows the main refutation', function () {
             {
                 color: "b",
                 san: "Qxg4"
-            } as MoveEvent,
-            {
-                color: "b",
-                san: "Bxg4"
             } as MoveEvent,
         ];
         staffordEngine.determineWhiteNextMove([]);
@@ -167,7 +159,7 @@ describe('knows the oh no my queen trap', function () {
     it('plays e4 on first move', function () {
         const staffordEngine = staffordGameEngine(0.4);
 
-        const firstMove = staffordEngine.determineWhiteNextMove([blackMoves[0]])
+        const firstMove = staffordEngine.determineWhiteNextMove([])
 
         assert.equal(firstMove, "e4")
     });
@@ -201,7 +193,7 @@ describe('knows the oh no my queen trap', function () {
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3]]);
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3], blackMoves[4]]);
 
-        const firstMove = staffordEngine.determineWhiteNextMove(blackMoves)
+        const firstMove = staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3], blackMoves[4], blackMoves[5]])
 
         assert.equal(firstMove, "Bxd8")
     });
@@ -215,9 +207,9 @@ describe('knows the oh no my queen trap', function () {
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3], blackMoves[4]]);
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3], blackMoves[4], blackMoves[5]]);
 
-        const firstMove = staffordEngine.determineWhiteNextMove(blackMoves)
+        const finalMove = staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3], blackMoves[4], blackMoves[5], blackMoves[6]]);
 
-        assert.equal(firstMove, "Ke2")
+        assert.equal(finalMove, "Ke2")
     });
 });
 
@@ -250,16 +242,12 @@ describe('knows the oh no my knight trap', function () {
         {
             color: "b",
             san: "Bxf2+"
-        } as MoveEvent,
-        {
-            color: "b",
-            san: "Qxd1-+"
         } as MoveEvent
     ] as const;
     it('plays e4 on first move', function () {
         const staffordEngine = staffordGameEngine(0.65);
 
-        const firstMove = staffordEngine.determineWhiteNextMove([blackMoves[0]])
+        const firstMove = staffordEngine.determineWhiteNextMove([])
 
         assert.equal(firstMove, "e4")
     });
@@ -293,9 +281,9 @@ describe('knows the oh no my knight trap', function () {
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3]]);
         staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3], blackMoves[4]]);
 
-        const firstMove = staffordEngine.determineWhiteNextMove(blackMoves)
+        const finalMove = staffordEngine.determineWhiteNextMove([blackMoves[0], blackMoves[1], blackMoves[2], blackMoves[3], blackMoves[4], blackMoves[5]]);
 
-        assert.equal(firstMove, "dxe4")
+        assert.equal(finalMove, "dxe4")
     });
     it('plays the entire refutation', function () {
         const staffordEngine = staffordGameEngine(0.65);

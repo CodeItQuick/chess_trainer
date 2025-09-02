@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.75% </span>
+                <span class="strong">92.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>45/48</span>
+                <span class='fraction'>37/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.83% </span>
+                <span class="strong">61.53% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/24</span>
+                <span class='fraction'>8/13</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.75% </span>
+                <span class="strong">92.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>45/48</span>
+                <span class='fraction'>37/40</span>
             </div>
         
             
@@ -102,27 +102,15 @@
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
 <a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a>
-<a name='L41'></a><a href='#L41'>41</a>
-<a name='L42'></a><a href='#L42'>42</a>
-<a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -131,22 +119,18 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
@@ -158,44 +142,36 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">﻿import type {MoveEvent} from "vue3-chessboard";
+import { stafford_lines } from "./stafford_lines";
+&nbsp;
 &nbsp;
 const staffordGameEngine = (refutationRoll = 1.0) =&gt; {
-    const mainRefutationWhite = ['e4', 'Nf3', 'Nxe5', 'Nxc6', 'd3', 'Be2', 'Bxg4', 'g3', 'Qxg4'];
-    const mainRefutationBlack = ['e5', 'Nf6', 'Nc6', 'dxc6', 'Bc5', 'Ng4', 'Qh4', 'Qxg4', 'Bxg4'];
-    const ohNoMyQueenWhite = ['e4', 'Nf3', 'Nxe5', 'Nxc6', 'd3', 'Bg5', 'Bxd8', 'Ke2'];
-    const ohNoMyQueenBlack = ['e5', 'Nf6', 'Nc6', 'dxc6', 'Bc5', 'Nxe4', 'Bxf2+', 'Bg4#'];
-    const ohNoMyKnightWhite = ['e4', 'Nf3', 'Nxe5', 'Nxc6', 'e5', 'd3', 'dxe4', 'Kxf2'];
-    const ohNoMyKnightBlack = ['e5', 'Nf6', 'Nc6', 'dxc6', 'Ne4', 'Bc5', 'Bxf2+', 'Qxd1-+'];
 &nbsp;
     const refutation = 0.75, queen = 0.5;
-    let staffordEngine: { blackMoves: string[], whiteMoves: string[] } = { blackMoves: [], whiteMoves: [] };
+    let staffordIdx = 0;
     if (refutationRoll &gt; refutation) {
-        staffordEngine = { blackMoves: mainRefutationBlack, whiteMoves: mainRefutationWhite };
+        staffordIdx = 0;
     } else if (refutationRoll &lt; queen) {
-        staffordEngine = { blackMoves: ohNoMyQueenBlack, whiteMoves: ohNoMyQueenWhite };
+        staffordIdx = 1;
     } else {
-        staffordEngine = { blackMoves: ohNoMyKnightBlack, whiteMoves: ohNoMyKnightWhite };
+        staffordIdx = 2;
     }
+    let staffordEngine: { blackMoves: string[], whiteMoves: string[] } = {
+        blackMoves: stafford_lines[staffordIdx].black,
+        whiteMoves: stafford_lines[staffordIdx].white
+    };
+&nbsp;
 &nbsp;
     function determineWhiteNextMove(history: MoveEvent[]) {
         let currentBlackLine = history.filter((item) =&gt; item.color === 'b').map(item =&gt; item.san);
         // play main refutation
-        if (refutationRoll &gt; refutation &amp;&amp; mainRefutationBlack.filter((engine, idx) =&gt; engine === currentBlackLine[idx]).length
+        if (staffordEngine.blackMoves.filter((move, idx) =&gt; move === currentBlackLine[idx]).length
             === currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength) {
-            return mainRefutationWhite.shift();
-        }
-        // play fell for trap "Oh No My Queen"
-        if (refutationRoll &lt; queen &amp;&amp; ohNoMyQueenBlack.filter((engine, idx) =&gt; engine === currentBlackLine[idx]).length
-            === currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength) {
-            return ohNoMyQueenWhite.shift();
-        }
-        // play fell for trap "Oh No My Knight"
-        if (refutationRoll &gt; queen &amp;&amp; refutationRoll &lt;= refutation &amp;&amp; ohNoMyKnightBlack.filter((engine, idx) =&gt; engine === currentBlackLine[idx]).length
-            === currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength) {
-            return ohNoMyKnightWhite.shift();
+            const nextMove = staffordEngine.whiteMoves[history.length]
+            return nextMove;
         }
 <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
-        let engineMoveSoFar = mainRefutationBlack.slice(0, currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength)</span>;
+        let engineMoveSoFar = staffordEngine.blackMoves.slice(0, currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength)</span>;
             // play vs computer
         if (engineMoveSoFar.some((engine, idx) =&gt; engine !== currentBlackLine[idx])) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >            console.log(`You are off the main line! ${staffordEngine.blackMoves[0]} !== ${currentBlackLine[0]}`)</span>
@@ -211,7 +187,7 @@ export { staffordGameEngine };</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-02T14:11:02.225Z
+                at 2025-09-02T15:44:19.476Z
             </div>
         <script src="prettify.js"></script>
         <script>
