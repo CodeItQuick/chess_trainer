@@ -12,7 +12,7 @@ const boardConfig: BoardConfig = {
   coordinates: true,
   orientation: "black"
 };
-let staffordEngine = staffordGameEngine();
+let staffordEngine = staffordGameEngine(Math.random());
 function handleCheckmate(isMated: string) {
   if (isMated === 'w') {
     alert('Black wins!');
@@ -22,19 +22,18 @@ function handleCheckmate(isMated: string) {
 }
 function boardCreated(api: BoardApi) {
   boardAPI = api;
-  staffordEngine = staffordGameEngine();
+  staffordEngine = staffordGameEngine(Math.random());
   const currentWhiteMove = staffordEngine.whiteMoves.shift() ?? "";
   boardAPI.move(currentWhiteMove)
   return boardAPI;
 }
 function boardReset() {
-  staffordEngine = staffordGameEngine();
+  staffordEngine = staffordGameEngine(Math.random());
   boardAPI?.resetBoard();
-  const currentWhiteMove = staffordGameEngine()?.whiteMoves.shift() || "";
+  const currentWhiteMove = staffordEngine?.whiteMoves.shift() || "";
   boardAPI.move(currentWhiteMove)
 }
 function undoMove() {
-  staffordEngine = staffordGameEngine();
   boardAPI?.undoLastMove();
   const history = boardAPI?.getHistory(true);
   const moveNumber = history.filter(({color}) => color === 'w')?.length
