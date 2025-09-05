@@ -15,10 +15,12 @@ const boardConfig: BoardConfig = {
 };
 let staffordEngine: {
   determineWhiteNextMove: (history: MoveEvent[]) => string | undefined;
+  determineBlackNextMove: (history: MoveEvent[]) => string | undefined;
   lineName: string;
+  blackNextMove: string;
   whiteMoves: string[];
   blackMoves: string[];
-} = { whiteMoves: [], blackMoves: [], determineWhiteNextMove: () => undefined, lineName: "" };
+} = { whiteMoves: [], blackMoves: [], determineWhiteNextMove: () => undefined, determineBlackNextMove: () => undefined, lineName: "", blackNextMove: "" };
 function handleCheckmate(isMated: string) {
   if (isMated === 'w') {
     alert('Black wins!');
@@ -54,6 +56,7 @@ function handleMove(move: MoveEvent) {
   //   boardAPI.move(currentBlackMove)
   // }
   // hero is playing black
+  showHint.value = false;
   if (move.color === 'b') {
     const history = boardAPI.getHistory(true);
     const currentWhiteMove = staffordEngine?.determineWhiteNextMove(history);
@@ -68,6 +71,8 @@ function handleMove(move: MoveEvent) {
 }
 
 const staffordLineName = ref(staffordEngine.lineName ?? "")
+const blackNextMove = ref(staffordEngine.blackNextMove)
+const showHint = ref(false);
 
 // let stockfishLog = []
 // const stockfish = await STOCKFISH({
@@ -81,6 +86,11 @@ const staffordLineName = ref(staffordEngine.lineName ?? "")
 // let stuff = stockfish.ccall("command", ["string"], ["string"], ['go movetime 800'], {async: /^go\b/.test('go movetime 800')})
 // stockfish.ccall("command", ["string"], ["string"], ['stop'], {async: /^go\b/.test('go movetime 800')})
 // console.log(stockfishLog)
+const hint = () => {
+  const blackMove = staffordEngine?.determineBlackNextMove(boardAPI?.getHistory(true) ?? []);
+  blackNextMove.value = blackMove ?? "";
+  showHint.value = !showHint.value;
+}
 </script>
 
 <template>
@@ -93,6 +103,8 @@ const staffordLineName = ref(staffordEngine.lineName ?? "")
       <button @click="boardReset">Reset</button>
       <button @click="undoMove">Undo</button>
       <button @click="boardAPI?.toggleMoves()">Threats</button>
+      <button @click="hint">Hint</button>
+      <div v-if="showHint">{{blackNextMove}}</div>
     </div>
     <TheChessboard
         :board-config="boardConfig"
