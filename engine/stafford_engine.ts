@@ -2,7 +2,12 @@
 import { stafford_lines } from "./stafford_lines";
 
 
-const staffordGameEngine = (refutationRoll = 0.99) => {
+const staffordGameEngine = (refutationRoll = 0.99): {
+    lineName: string;
+    whiteMoves: string[];
+    blackMoves: string[];
+    determineWhiteNextMove: (history: MoveEvent[]) => string | undefined;
+} => {
 
     const roll = refutationRoll === 1.0 ? "0.99" : refutationRoll * stafford_lines.length + ""
     const staffordIdx = parseInt(roll, 10)

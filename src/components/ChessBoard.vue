@@ -6,14 +6,19 @@ import { staffordGameEngine } from "../../engine/stafford_engine.ts";
 import {ref} from "vue";
 // import STOCKFISH from 'stockfish/src/stockfish-17.1-asm-341ff22.js';
 
-const props = defineProps<{ title: string }>()
+defineProps<{ title: string }>()
 
 let boardAPI: BoardApi;
 const boardConfig: BoardConfig = {
   coordinates: true,
   orientation: "black"
 };
-let staffordEngine = { lineName: "" };
+let staffordEngine: {
+  determineWhiteNextMove: (history: MoveEvent[]) => string | undefined;
+  lineName: string;
+  whiteMoves: string[];
+  blackMoves: string[];
+} = { whiteMoves: [], blackMoves: [], determineWhiteNextMove: () => undefined, lineName: "" };
 function handleCheckmate(isMated: string) {
   if (isMated === 'w') {
     alert('Black wins!');

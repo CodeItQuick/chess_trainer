@@ -27,7 +27,7 @@
     {
         line: 'drag-king-to-e4',
         white: ['e4', 'Nf3', 'Nxe5', 'Nxc6', 'd3', 'h3', 'Kxf2', 'Ke3', 'Kxe4'],
-        black: ['e5', 'Nf6', 'Nc6', 'dxc6', 'Bc5', 'Bxf2+', 'Nxe4', 'O-O']
+        black: ['e5', 'Nf6', 'Nc6', 'dxc6', 'Bc5', 'Bxf2+', 'Nxe4+', 'O-O']
     },
     {
         line: 'everyone-falls-for-this',
