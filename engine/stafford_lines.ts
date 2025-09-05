@@ -32,7 +32,7 @@
     {
         line: 'everyone-falls-for-this',
         white: ['e4', 'Nf3', 'Nxe5', 'Nxc6', 'd3', 'Be2', 'O-O', 'h3', 'hxg4'],
-        black: ['e5', 'Nf6', 'Nc6', 'dxc6', 'Bc5', 'h5', 'Ng4', 'Qd6', 'hxg4-+']
+        black: ['e5', 'Nf6', 'Nc6', 'dxc6', 'Bc5', 'h5', 'Ng4', 'Qd6', 'hxg4']
     },
     {
         line: 'main-refutation',

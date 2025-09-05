@@ -23,11 +23,13 @@ const staffordGameEngine = (refutationRoll = 0.99): {
 
     function determineWhiteNextMove(history: MoveEvent[]) {
         let currentBlackLine = history.filter((item) => item.color === 'b').map(item => item.san);
+        let staffordEngineMoves = staffordEngine.blackMoves.filter((move, idx) => move === currentBlackLine[idx]);
+        console.log(currentBlackLine);
+        console.log(staffordEngineMoves);
         // play main refutation
-        if (staffordEngine.blackMoves.filter((move, idx) => move === currentBlackLine[idx]).length
-            === currentBlackLine?.length) {
+        if (staffordEngineMoves.length === currentBlackLine?.length) {
             const nextMove = staffordEngine.whiteMoves[currentBlackLine.length]
-            return nextMove;
+            return nextMove ?? "";
         }
 
         let engineMoveSoFar = staffordEngine.blackMoves.slice(0, currentBlackLine?.length);
@@ -39,8 +41,8 @@ const staffordGameEngine = (refutationRoll = 0.99): {
     function determineBlackNextMove(history: MoveEvent[]) {
         let currentBlackLine = history.filter((item) => item.color === 'b').map(item => item.san);
         // play main refutation
-        if (staffordEngine.blackMoves.filter((move, idx) => move === currentBlackLine[idx]).length
-            === currentBlackLine?.length) {
+        let staffordEngineMoves = staffordEngine.blackMoves.filter((move, idx) => move === currentBlackLine[idx]).length;
+        if (staffordEngineMoves === currentBlackLine?.length) {
             const nextMove = staffordEngine.blackMoves[currentBlackLine.length]
             return nextMove;
         }
