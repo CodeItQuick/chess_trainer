@@ -55,7 +55,7 @@ function undoMove() {
   boardAPI?.undoLastMove();
 }
 
-function handleMove(move: MoveEvent) {
+function handleMove(_move: MoveEvent) {
   showHint.value = false;
   const history = boardAPI.getHistory(true);
 
