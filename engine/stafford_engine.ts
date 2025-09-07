@@ -2,7 +2,7 @@
 import { stafford_lines } from "./stafford_lines";
 
 
-const staffordGameEngine = (refutationRoll = 0.99): {
+const gameEngine = (refutationRoll = 0.99, engineLines: { black: string[], white: string[], line: string }[] = stafford_lines): {
     lineName: string;
     blackNextMove: string;
     whiteMoves: string[];
@@ -11,12 +11,12 @@ const staffordGameEngine = (refutationRoll = 0.99): {
     determineBlackNextMove: (history: MoveEvent[]) => string | undefined;
 } => {
 
-    const roll = refutationRoll === 1.0 ? "0.99" : refutationRoll * stafford_lines.length + ""
+    const roll = refutationRoll === 1.0 ? (0.99 % 8) + "" : refutationRoll % engineLines.length * engineLines.length + ""
     const staffordIdx = parseInt(roll, 10)
     let staffordEngine: { blackMoves: string[], whiteMoves: string[], lineName: string, blackNextMove: string; } = {
-        blackMoves: stafford_lines[staffordIdx].black,
-        whiteMoves: stafford_lines[staffordIdx].white,
-        lineName: stafford_lines[staffordIdx].line.split('-').join(' '),
+        blackMoves: engineLines[staffordIdx].black,
+        whiteMoves: engineLines[staffordIdx].white,
+        lineName: engineLines[staffordIdx].line.split('-').join(' '),
         blackNextMove: ""
     };
 
@@ -56,4 +56,4 @@ const staffordGameEngine = (refutationRoll = 0.99): {
     return { ...staffordEngine, determineWhiteNextMove, determineBlackNextMove };
 }
 
-export { staffordGameEngine };
+export { gameEngine };

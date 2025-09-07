@@ -2,8 +2,9 @@
 import type {BoardApi, BoardConfig} from 'vue3-chessboard';
 import {type MoveEvent, TheChessboard} from 'vue3-chessboard';
 import 'vue3-chessboard/style.css';
-import { staffordGameEngine } from "../../engine/stafford_engine.ts";
+import { gameEngine } from "../../engine/stafford_engine.ts";
 import {ref} from "vue";
+import {stafford_lines} from "../../engine/stafford_lines.ts";
 // import STOCKFISH from 'stockfish/src/stockfish-17.1-asm-341ff22.js';
 
 defineProps<{ title: string }>()
@@ -30,49 +31,51 @@ function handleCheckmate(isMated: string) {
 }
 function boardCreated(api: BoardApi) {
   boardAPI = api;
-  staffordEngine = staffordGameEngine(Math.random());
+  staffordEngine = gameEngine(Math.random(), stafford_lines);
   const currentWhiteMove = staffordEngine.whiteMoves[0] ?? "";
   boardAPI.move(currentWhiteMove)
   staffordLineName.value = staffordEngine.lineName;
   return boardAPI;
 }
-function boardReset() {
-  staffordEngine = staffordGameEngine(Math.random());
+function newGameBlack() {
+  staffordEngine = gameEngine(Math.random(), stafford_lines);
   boardAPI?.resetBoard();
+  playerColor.value = 'b';
   const currentWhiteMove = staffordEngine?.whiteMoves[0] || "";
   staffordLineName.value = staffordEngine.lineName;
   boardAPI.move(currentWhiteMove)
+}
+function newGameWhite() {
+  staffordEngine = gameEngine(Math.random(), stafford_lines);
+  boardAPI?.resetBoard();
+  boardAPI?.toggleOrientation();
+  playerColor.value = 'w';
 }
 function undoMove() {
   boardAPI?.undoLastMove();
 }
 
 function handleMove(move: MoveEvent) {
-  // if (move.color === 'w') {
-  //   const history = boardAPI.getHistory();
-  //   const currentBlackMove = staffordEngine.blackMoves.shift();
-  //   console.log(history)
-  //   console.log(currentBlackMove)
-  //   boardAPI.move(currentBlackMove)
-  // }
-  // hero is playing black
   showHint.value = false;
-  if (move.color === 'b') {
-    const history = boardAPI.getHistory(true);
-    const currentWhiteMove = staffordEngine?.determineWhiteNextMove(history);
-    if (currentWhiteMove === undefined) {
-      alert('You are off the line! Try again!');
-      return false;
-    } else {
-      boardAPI.move(currentWhiteMove);
-      return true;
-    }
-  }
-}
+  const history = boardAPI.getHistory(true);
 
-const staffordLineName = ref(staffordEngine.lineName ?? "")
-const blackNextMove = ref(staffordEngine.blackNextMove)
-const showHint = ref(false);
+  let currentMove;
+  if (playerColor.value === 'b') {
+    currentMove = staffordEngine?.determineWhiteNextMove(history);
+  } else {
+    currentMove = staffordEngine?.determineBlackNextMove(history);
+  }
+  if (currentMove === undefined) {
+    alert('You are off the line! Try again!');
+    return false;
+  }
+  if (currentMove !== "") {
+    boardAPI.move(currentMove);
+  } else {
+    alert("You got the line correct!")
+  }
+  return true;
+}
 
 // let stockfishLog = []
 // const stockfish = await STOCKFISH({
@@ -91,16 +94,20 @@ const hint = () => {
   blackNextMove.value = blackMove ?? "";
   showHint.value = !showHint.value;
 }
+
+const staffordLineName = ref(staffordEngine.lineName ?? "")
+const blackNextMove = ref(staffordEngine.blackNextMove)
+const showHint = ref(false);
+const playerColor = ref('b');
+
 </script>
 
 <template>
   <section>
     <h1>{{ title }}: {{ staffordLineName }}</h1>
     <div>
-      <button @click="boardAPI?.toggleOrientation()">
-        Toggle orientation
-      </button>
-      <button @click="boardReset">Reset</button>
+      <button @click="newGameBlack">New Game Black</button>
+      <button @click="newGameWhite">New Game White</button>
       <button @click="undoMove">Undo</button>
       <button @click="boardAPI?.toggleMoves()">Threats</button>
       <button @click="hint">Hint</button>

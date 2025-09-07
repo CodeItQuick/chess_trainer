@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.79% </span>
+                <span class="strong">71.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/59</span>
+                <span class='fraction'>42/59</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">41.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/11</span>
+                <span class='fraction'>5/12</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">67.79% </span>
+                <span class="strong">71.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/59</span>
+                <span class='fraction'>42/59</span>
             </div>
         
             
@@ -152,6 +152,8 @@
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
+<span class="cline-any cline-yes">55x</span>
+<span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">55x</span>
@@ -160,8 +162,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -192,7 +192,7 @@ const staffordGameEngine = (refutationRoll = 0.99): {
     determineBlackNextMove: (history: MoveEvent[]) =&gt; string | undefined;
 } =&gt; {
 &nbsp;
-    const roll = refutationRoll === 1.0 <span class="branch-0 cbranch-no" title="branch not covered" >? "0.99" </span>: refutationRoll * stafford_lines.length + ""
+    const roll = refutationRoll === 1.0 <span class="branch-0 cbranch-no" title="branch not covered" >? (0.99 % 8) + "" </span>: refutationRoll % 8 * stafford_lines.length + ""
     const staffordIdx = parseInt(roll, 10)
     let staffordEngine: { blackMoves: string[], whiteMoves: string[], lineName: string, blackNextMove: string; } = {
         blackMoves: stafford_lines[staffordIdx].black,
@@ -204,11 +204,13 @@ const staffordGameEngine = (refutationRoll = 0.99): {
 &nbsp;
     function determineWhiteNextMove(history: MoveEvent[]) {
         let currentBlackLine = history.filter((item) =&gt; item.color === 'b').map(item =&gt; item.san);
+        let staffordEngineMoves = staffordEngine.blackMoves.filter((move, idx) =&gt; move === currentBlackLine[idx]);
+        console.log(currentBlackLine);
+        console.log(staffordEngineMoves);
         // play main refutation
-        if (staffordEngine.blackMoves.filter((move, idx) =&gt; move === currentBlackLine[idx]).length
-            === currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength) {
+        if (staffordEngineMoves.length === currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength) {
             const nextMove = staffordEngine.whiteMoves[currentBlackLine.length]
-            return nextMove;
+            return nextMove<span class="branch-0 cbranch-no" title="branch not covered" > ?? "";</span>
         }
 <span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
         let engineMoveSoFar = staffordEngine.blackMoves.slice(0, currentBlackLine<span class="branch-0 cbranch-no" title="branch not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >?.l</span>ength)</span>;
@@ -221,8 +223,6 @@ const staffordGameEngine = (refutationRoll = 0.99): {
 <span class="cstat-no" title="statement not covered" >        let currentBlackLine = history.filter((item) =&gt; item.color === 'b').map(item =&gt; item.san);</span>
 <span class="cstat-no" title="statement not covered" >        // play main refutation</span>
 <span class="cstat-no" title="statement not covered" >        let staffordEngineMoves = staffordEngine.blackMoves.filter((move, idx) =&gt; move === currentBlackLine[idx]).length;</span>
-<span class="cstat-no" title="statement not covered" >        console.log(currentBlackLine);</span>
-<span class="cstat-no" title="statement not covered" >        console.log(staffordEngineMoves);</span>
 <span class="cstat-no" title="statement not covered" >        if (staffordEngineMoves === currentBlackLine?.length) {</span>
 <span class="cstat-no" title="statement not covered" >            const nextMove = staffordEngine.blackMoves[currentBlackLine.length]</span>
 <span class="cstat-no" title="statement not covered" >            return nextMove;</span>
@@ -244,7 +244,7 @@ export { staffordGameEngine };</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-09-05T14:47:49.798Z
+                at 2025-09-07T13:35:06.873Z
             </div>
         <script src="prettify.js"></script>
         <script>
